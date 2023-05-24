@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="0db0a164-3eb4-4a5f-addd-de7561eaed12" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="23d43cd1-ef3d-4a66-af35-4ff7f7d755bf" file="${env}.properties" />
+	<global-property doc:name="Global Property" doc:id="b35b0a0f-7079-453e-9d45-9b80d16f8a24" name="env" value="prod" />
+	<flow name="todeploychub2Flow" doc:id="c5c6983c-1622-4f13-b036-de589a348766" >
+		<http:listener doc:name="Listener" doc:id="494ef658-1f0e-473a-8fab-14ad697cc66e" config-ref="HTTP_Listener_config" path="/deploychub"/>
+		<ee:transform doc:name="Transform Message" doc:id="e131bb64-e2f4-455c-a5af-5cb1b0f6f3fd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message:"deployed in clodHub2.0",
+	env:p('evnTest')
+}
+	
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
