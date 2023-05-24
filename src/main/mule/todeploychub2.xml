@@ -19,7 +19,8 @@ output application/json
 ---
 {
 	message:"deployed in clodHub2.0",
-	env:p('evnTest')
+	env:p('evnTest'),
+	Test:"Testing"
 }
 	
 ]]></ee:set-payload>
